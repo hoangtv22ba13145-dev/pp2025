@@ -1,0 +1,69 @@
+students = {}
+courses = {}
+marks = {}
+
+def input_number_of_students():
+ n=int(input("Enter number of students: "))
+ return n
+def input_number_of_courses():
+ n=int(input("Enter number of courses: "))
+ return n
+def input_student_info():
+ student_id=input("Enter student ID: ")
+ name=input("Enter student name: ")
+ dob=input("Enter student DoB (dd/mm/yyyy): ")
+ students[student_id]={"name":name,"DoB":dob}
+def input_course_info():
+ course_id=input("Enter course ID: ")
+ course_name=input("Enter course name: ")
+ courses[course_id]=course_name
+def input_marks_for_course():
+ if not courses: print("No courses available.");return
+ print("Select a course to input marks:")
+ for cid,cname in courses.items(): print(f"{cid}: {cname}")
+ course_id=input("Enter course ID: ")
+ if course_id not in courses: print("Invalid course ID.");return
+ for sid,sdata in students.items():
+  while True:
+   try:
+    mark=float(input(f"Enter mark for {sdata['name']}: "))
+    if 0<=mark<=100: marks[(sid,course_id)]=mark;break
+    else: print("Mark must be between 0 and 100.")
+   except ValueError: print("Invalid input. Enter a number.")
+def list_students():
+ if not students: print("No students available.");return
+ print("List of students:")
+ for sid,sdata in students.items(): print(f"ID: {sid}, Name: {sdata['name']}, DoB: {sdata['DoB']}")
+def list_courses():
+ if not courses: print("No courses available.");return
+ print("List of courses:")
+ for cid,cname in courses.items(): print(f"ID: {cid}, Name: {cname}")
+def show_marks_for_course():
+ if not courses: print("No courses available.");return
+ print("Select a course to show marks:")
+ for cid,cname in courses.items(): print(f"{cid}: {cname}")
+ course_id=input("Enter course ID: ")
+ if course_id not in courses: print("Invalid course ID.");return
+ print(f"Marks for course {courses[course_id]}:")
+ for sid,sdata in students.items(): print(f"{sdata['name']}: {marks.get((sid,course_id),'N/A')}")
+def main():
+ print(" Student Mark Management System")
+ n_students=input_number_of_students()
+ for _ in range(n_students): input_student_info()
+ n_courses=input_number_of_courses()
+ for _ in range(n_courses): input_course_info()
+ while True:
+  print("\nOptions:")
+  print("1. List students")
+  print("2. List courses")
+  print("3. Input marks for course")
+  print("4. Show marks for course")
+  print("5. Exit")
+  choice=input("Enter your choice: ")
+  if choice=="1": list_students()
+  elif choice=="2": list_courses()
+  elif choice=="3": input_marks_for_course()
+  elif choice=="4": show_marks_for_course()
+  elif choice=="5": print("Exiting program. Goodbye!");break
+  else: print("Invalid choice!")
+if __name__=="__main__": main()
